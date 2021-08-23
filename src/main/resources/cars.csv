@@ -1,0 +1,20 @@
+model_code, model_name, type_code, type_name, current_price
+12563, A-class, 2514, Sedan, 32550$
+32562, A-class, 4532, Cabrio, 33620$
+65892, A-class, 5689, Universal, 29999$
+98234, A-class, 6521, AMG, 42350$
+83256, A-class, 4256, Brabus, 50000$
+56225, C-class, 5425, Sedan, 24990$
+69852, C-class, 6987, AMG, 52645$
+98563, E-class, 2589, Sedan, 29650$
+78256, E-class, 6985, Cabrio, 31885$
+69585, E-class, 4826, Universal, 30000$
+87266, E-class, 9811, AMG, 65230$
+75269, E-class, 7852, Brabus, 74250$
+83222, S-class, 7123, Sedan, 53680$
+69852, S-class, 4425, AMG, 77770$
+98251, S-class, 9565, Brabus, 95000$
+92214, S-class coupe, 6952, Sedan, 52780$
+95225, S-class coupe, 8423, Cabrio, 54320$
+95255, S-class coupe, 6286, AMG, 75000$
+95852, S-class coupe, 4582, Brabus, 101550$
