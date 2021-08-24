@@ -12,8 +12,9 @@ import java.io.IOException;
 public class GUI {
 
     protected void createGUI(){
+        Car car = new Car();
         BufferedImage logo = null;
-        JLabel text;
+        JLabel text, current_price;
         Dimension combo_size = new Dimension(250,20);
         Dimension button_size = new Dimension(250,40);
         Font label_font = new Font("",Font.BOLD,20);
@@ -60,7 +61,7 @@ public class GUI {
         text.setFont(label_font);
         main_panel.add(text);
 
-        JComboBox models = new JComboBox();
+        JComboBox<String> models = new JComboBox<>(car.getModelsName());
         models.setPreferredSize(combo_size);
         main_panel.add(models);
 
@@ -68,21 +69,27 @@ public class GUI {
         text.setFont(label_font);
         main_panel.add(text);
 
-        JComboBox types = new JComboBox();
+        JComboBox<String> types = new JComboBox<>(car.getCarTypes());
         types.setPreferredSize(combo_size);
         main_panel.add(types);
 
         text = new JLabel("Price :");
-        text.setPreferredSize(new Dimension(750,100));
-        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setPreferredSize(new Dimension(230,100));
+        text.setHorizontalAlignment(SwingConstants.RIGHT);
         text.setFont(label_font);
         main_panel.add(text);
+
+        current_price = new JLabel("00.000x");
+        current_price.setPreferredSize(new Dimension(470,100));
+        current_price.setHorizontalAlignment(SwingConstants.LEFT);
+        current_price.setFont(label_font);
+        main_panel.add(current_price);
 
         text = new JLabel("First Name :");
         text.setFont(label_font);
         main_panel.add(text);
 
-        JComboBox first_name = new JComboBox();
+        JTextField first_name = new JTextField();
         first_name.setPreferredSize(combo_size);
         main_panel.add(first_name);
 
@@ -90,7 +97,7 @@ public class GUI {
         text.setFont(label_font);
         main_panel.add(text);
 
-        JComboBox last_name = new JComboBox();
+        JTextField last_name = new JTextField();
         last_name.setPreferredSize(combo_size);
         main_panel.add(last_name);
 

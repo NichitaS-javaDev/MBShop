@@ -2,7 +2,9 @@ package mb.shop.app;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class CarFileReader<Car> extends AFileReader{
     BufferedReader reader;
@@ -35,9 +37,24 @@ public class CarFileReader<Car> extends AFileReader{
     }
 
     @Override
-    ArrayList<String> createRecord(String row) {
-        ArrayList<String> record = new ArrayList<>();
-        Collections.addAll(record,row.split(","));
-        return record;
+    HashMap<String, mb.shop.app.Car> createCar(String row) {
+        mb.shop.app.Car car = new mb.shop.app.Car();
+        HashMap<String, mb.shop.app.Car> car_map = new HashMap<>();
+        String[] s = row.split(",");
+        car_map.put(
+                s[0]+s[2],
+                new mb.shop.app.Car(
+                        car.getCarByModel(s[1]),
+                        car.getCarByType(s[3]),Double.parseDouble(s[4].substring(1,s[4].length()-1))
+                )
+        );
+
+//        for (mb.shop.app.Car c: car_map.values()) {
+//            System.out.println(c.model);
+//            System.out.println(c.type);
+//            System.out.println(c.current_price);
+//        }
+
+        return car_map;
     }
 }

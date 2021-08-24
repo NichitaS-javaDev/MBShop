@@ -18,7 +18,7 @@ public abstract class AFileReader<T> {
 
     abstract boolean validateHeader(String row);
 
-    abstract T createRecord(String row);
+    abstract T createCar(String row);
 
     protected List<T> loadData(){
         List<T> car_list = new ArrayList<>();
@@ -26,14 +26,12 @@ public abstract class AFileReader<T> {
 
         try {
             String row = carFileReader.reader.readLine(); //header
-            //System.out.println("head : " + row);
             if (carFileReader.validateHeader(row)){
                 while (true){
                     row = carFileReader.reader.readLine(); //line
-                    //System.out.println("row : "+ row);
                     if (row != null){
                         if (carFileReader.validateHeader(row)){
-                            car_list.add((T) carFileReader.createRecord(row));
+                            car_list.add((T) carFileReader.createCar(row));
                         } else {
                             throw new InvalidFilesStructureException("Invalid line");
                         }
