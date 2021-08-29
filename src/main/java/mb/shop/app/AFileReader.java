@@ -1,12 +1,12 @@
 package mb.shop.app;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public abstract class AFileReader<T> {
     static String file_path;
     static byte column_num;
+    static HashMap<String,Car> car_map;
 
     public AFileReader(String file_path, byte column_num) {
         AFileReader.file_path = file_path;
@@ -18,10 +18,10 @@ public abstract class AFileReader<T> {
 
     abstract boolean validateHeader(String row);
 
-    abstract T createCar(String row);
+    abstract void createCar(String row);
 
-    protected List<T> loadData(){
-        List<T> car_list = new ArrayList<>();
+    protected HashMap loadData(){
+        car_map = new HashMap<>();
         CarFileReader<Car> carFileReader = new CarFileReader<>();
 
         try {
@@ -31,7 +31,7 @@ public abstract class AFileReader<T> {
                     row = carFileReader.reader.readLine(); //line
                     if (row != null){
                         if (carFileReader.validateHeader(row)){
-                            car_list.add((T) carFileReader.createCar(row));
+                            carFileReader.createCar(row);
                         } else {
                             throw new InvalidFilesStructureException("Invalid line");
                         }
@@ -43,7 +43,13 @@ public abstract class AFileReader<T> {
         } catch (IOException | InvalidFilesStructureException e) {
             e.printStackTrace();
         }
-        return car_list;
+//        for (Car c : car_map.values()) {
+//            System.out.println(c.model);
+//            System.out.println(c.type);
+//            System.out.println(c.current_price);
+//            System.out.println(c.img_path);
+//        }
+        return car_map;
     }
 
 }

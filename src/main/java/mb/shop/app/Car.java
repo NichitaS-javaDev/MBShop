@@ -6,6 +6,7 @@ public class Car {
     CarModel model;
     CarType type;
     Double current_price;
+    String img_path;
 
     public Car(CarModel model, CarType type, Double current_price) {
         this.model = model;

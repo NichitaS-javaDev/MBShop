@@ -12,9 +12,11 @@ import java.io.IOException;
 public class GUI {
 
     protected void createGUI(){
+        //ActionListeners actionListeners = new ActionListeners();
         Car car = new Car();
         BufferedImage logo = null;
         JLabel text, current_price;
+        //current_price = new JLabel(); //// delete it
         Dimension combo_size = new Dimension(250,20);
         Dimension button_size = new Dimension(250,40);
         Font label_font = new Font("",Font.BOLD,20);
@@ -28,7 +30,7 @@ public class GUI {
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
         frame.setBackground(new Color(255,255,255));
 
-        frame.setSize(1400,900);
+        frame.setSize(1650,900);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,16 +45,16 @@ public class GUI {
         frame.add(main_panel);
 
         JPanel preview_panel = new JPanel();
-        preview_panel.setPreferredSize(new Dimension(400,550));
+        preview_panel.setPreferredSize(new Dimension(650,370));
         preview_panel.setBorder(new WindowsBorders.DashedBorder(Color.black));
         frame.add(preview_panel);
 
-        try {
-            logo = ImageIO.read(new File("src/main/resources/img/mb.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        JLabel pic_label = new JLabel(new ImageIcon(logo));
+//        try {
+//            logo = ImageIO.read(new File());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        JLabel pic_label = new JLabel(new ImageIcon("src/main/resources/img/mb.png"));
         pic_label.setBorder(new WindowsBorders.DashedBorder(new Color(1)));
         pic_label.setPreferredSize(new Dimension(1350,350));
         logo_panel.add(pic_label);
@@ -79,7 +81,7 @@ public class GUI {
         text.setFont(label_font);
         main_panel.add(text);
 
-        current_price = new JLabel("00.000x");
+        current_price = new JLabel();
         current_price.setPreferredSize(new Dimension(470,100));
         current_price.setHorizontalAlignment(SwingConstants.LEFT);
         current_price.setFont(label_font);
@@ -105,6 +107,9 @@ public class GUI {
         purchase_button.setPreferredSize(button_size);
         purchase_button.setFont(button_font);
         purchase_button.setBackground(button_bg);
+//        purchase_button.addActionListener(
+//                actionListeners.addPurchaseListener(models,types, current_price)
+//        );
         main_panel.add(purchase_button);
 
         JButton history_button = new JButton("History");
@@ -113,15 +118,23 @@ public class GUI {
         history_button.setBackground(button_bg);
         main_panel.add(history_button);
 
-
         JLabel preview = new JLabel();
-        preview.setPreferredSize(new Dimension(500,500));
-        preview.setBorder(new WindowsBorders.DashedBorder(new Color(1)));
-        //frame.add(preview);
+        preview.setPreferredSize(new Dimension(650,370));
+        preview.setHorizontalAlignment(SwingConstants.CENTER);
+        preview.setVerticalAlignment(SwingConstants.CENTER);
+        preview_panel.add(preview);
 
+        models.addItemListener(new ActionListeners().addPreviewAndPriceListener(
+                current_price, models, types, preview
+        ));
+
+        types.addItemListener(new ActionListeners().addPreviewAndPriceListener(
+                current_price, models, types, preview
+        ));
+
+        models.setSelectedItem("A-Class");
+        types.setSelectedItem("Brabus");
 
         frame.setVisible(true);
-
     }
-
 }

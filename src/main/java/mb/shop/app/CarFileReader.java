@@ -1,6 +1,8 @@
 package mb.shop.app;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,24 +39,27 @@ public class CarFileReader<Car> extends AFileReader{
     }
 
     @Override
-    HashMap<String, mb.shop.app.Car> createCar(String row) {
+    void createCar(String row) {
         mb.shop.app.Car car = new mb.shop.app.Car();
-        HashMap<String, mb.shop.app.Car> car_map = new HashMap<>();
+
         String[] s = row.split(",");
-        car_map.put(
-                s[0]+s[2],
-                new mb.shop.app.Car(
-                        car.getCarByModel(s[1]),
-                        car.getCarByType(s[3]),Double.parseDouble(s[4].substring(1,s[4].length()-1))
-                )
-        );
 
-//        for (mb.shop.app.Car c: car_map.values()) {
-//            System.out.println(c.model);
-//            System.out.println(c.type);
-//            System.out.println(c.current_price);
-//        }
+        car_map.put(s[0]+s[2],new mb.shop.app.Car(
+                car.getCarByModel(s[1]),
+                car.getCarByType(s[3]),Double.parseDouble(s[4].substring(1,s[4].length()-1))
+        ));
+        addImagePath(s[0]+s[2]);
+    }
 
-        return car_map;
+    void addImagePath(String key){
+        mb.shop.app.Car car = car_map.get(key);
+        String img_name = (car.model + "_" + car.type.name)
+                .toLowerCase()
+                .replaceAll("_class","");
+
+        String file_path = "src/main/resources/img/" + img_name + ".png";
+        if (Files.exists(Paths.get(file_path))){
+            car.img_path = file_path;
+        }
     }
 }
