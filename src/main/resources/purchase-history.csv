@@ -1,1 +1,4 @@
-user_first_name, user_last_name, car_model_code, car_type_code, purchase_price, purchase_date
+first_name, last_name, model_code, model_type, price, date
+John, Smith, 4, 5, 95000.0$, Tue Aug 31 18:19:50 EEST 2021
+Betty, Rown, 1, 2, 29999.0$, Tue Aug 31 18:20:06 EEST 2021
+Tommy, Clark, 3, 4, 65230.0$, Tue Aug 31 18:20:50 EEST 2021
