@@ -1,4 +1,4 @@
-package mb.shop.app;
+package mb.shop.readers.carReader;
 
 public enum CarFileDefinition {
     MODEL_CODE(1,"model_code"),
@@ -7,8 +7,8 @@ public enum CarFileDefinition {
     TYPE_NAME(4,"type_name"),
     CURRENT_PRICE(5,"current_price");
 
-    int index;
-    String column_name;
+    public int index;
+    public String column_name;
 
     CarFileDefinition(int index, String column_name) {
         this.index = index;

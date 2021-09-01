@@ -9,7 +9,7 @@ public enum CarType {
     ;
 
     int code;
-    String name;
+    public String name;
 
     CarType(int code, String name) {
         this.code = code;

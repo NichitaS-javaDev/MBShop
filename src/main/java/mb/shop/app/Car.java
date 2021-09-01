@@ -3,10 +3,10 @@ package mb.shop.app;
 import java.util.Vector;
 
 public class Car {
-    CarModel model;
-    CarType type;
-    Double current_price;
-    String img_path;
+    public CarModel model;
+    public CarType type;
+    public Double current_price;
+    public String img_path;
 
     public Car(CarModel model, CarType type, Double current_price) {
         this.model = model;
@@ -33,7 +33,7 @@ public class Car {
         return list;
     }
 
-    CarModel getCarByModel(String input_model){
+    public CarModel getCarByModel(String input_model){
         for (CarModel model : CarModel.values()) {
             if (model.name.trim().equalsIgnoreCase(input_model.trim())){
                 return model;
@@ -42,7 +42,7 @@ public class Car {
         return null;
     }
 
-    CarType getCarByType(String input_type){
+    public CarType getCarByType(String input_type){
         for (CarType type : CarType.values()) {
             if (type.name.trim().equalsIgnoreCase(input_type.trim())){
                 return type;

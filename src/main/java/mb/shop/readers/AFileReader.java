@@ -1,12 +1,16 @@
-package mb.shop.app;
+package mb.shop.readers;
+
+import mb.shop.app.Car;
+import mb.shop.readers.carReader.CarFileReader;
+import mb.shop.app.InvalidFilesStructureException;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class AFileReader<T> {
-    static String file_path;
-    static byte column_num;
-    static HashMap<String,Car> car_map;
+    public static String file_path;
+    public static byte column_num;
+    public static HashMap<String, Car> car_map;
 
     public AFileReader(String file_path, byte column_num) {
         AFileReader.file_path = file_path;
@@ -16,11 +20,12 @@ public abstract class AFileReader<T> {
     public AFileReader() {
     }
 
-    abstract boolean validateHeader(String row);
+    abstract public boolean validateHeader(String row);
+    abstract public boolean validateRow(String row);
 
-    abstract void createCar(String row);
+    public abstract void createCar(String row);
 
-    protected HashMap loadData(){
+    public HashMap loadData(){
         car_map = new HashMap<>();
         CarFileReader<Car> carFileReader = new CarFileReader<>();
 
@@ -30,7 +35,7 @@ public abstract class AFileReader<T> {
                 while (true){
                     row = carFileReader.reader.readLine(); //line
                     if (row != null){
-                        if (carFileReader.validateHeader(row)){
+                        if (carFileReader.validateRow(row)){
                             carFileReader.createCar(row);
                         } else {
                             throw new InvalidFilesStructureException("Invalid line");

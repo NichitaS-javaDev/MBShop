@@ -1,15 +1,14 @@
-package mb.shop.app;
+package mb.shop.readers.carReader;
+
+import mb.shop.app.InvalidFilesStructureException;
+import mb.shop.readers.AFileReader;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 
-public class CarFileReader<Car> extends AFileReader{
-    BufferedReader reader;
+public class CarFileReader<Car> extends AFileReader {
+    public BufferedReader reader;
     {
         try {
             reader = new BufferedReader(new FileReader(file_path));
@@ -26,7 +25,26 @@ public class CarFileReader<Car> extends AFileReader{
     }
 
     @Override
-    boolean validateHeader(String row) {
+    public boolean validateHeader(String row) { // package cache(pack)
+        try {
+            if (row.split(",").length != column_num){
+                throw new InvalidFilesStructureException("Invalid File Structure");
+            }
+            String[] data = row.split(",");
+            for (int i=0;i<data.length;i++){
+                if (!validateStructure(data[i],i+1)){
+                    throw new InvalidFilesStructureException("Invalid File Structure");
+                }
+            }
+        } catch (InvalidFilesStructureException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean validateRow(String row){
         try {
             if (row.split(",").length != column_num){
                 throw new InvalidFilesStructureException("Invalid File Structure");
@@ -39,7 +57,7 @@ public class CarFileReader<Car> extends AFileReader{
     }
 
     @Override
-    void createCar(String row) {
+    public void createCar(String row) {
         mb.shop.app.Car car = new mb.shop.app.Car();
 
         String[] s = row.split(",");
@@ -51,7 +69,7 @@ public class CarFileReader<Car> extends AFileReader{
         addImagePath(s[0]+s[2]);
     }
 
-    void addImagePath(String key){
+    public void addImagePath(String key){
         mb.shop.app.Car car = car_map.get(key);
         String img_name = (car.model + "_" + car.type.name)
                 .toLowerCase()
@@ -61,5 +79,14 @@ public class CarFileReader<Car> extends AFileReader{
         if (Files.exists(Paths.get(file_path))){
             car.img_path = file_path;
         }
+    }
+
+    boolean validateStructure(String name, int index){
+        for (CarFileDefinition cfd : CarFileDefinition.values()){
+            if (cfd.column_name.trim().equalsIgnoreCase(name.trim()) && cfd.index == index){
+                return true;
+            }
+        }
+        return false;
     }
 }

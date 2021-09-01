@@ -1,6 +1,9 @@
 package mb.shop.app;
 
+import mb.shop.readers.AFileReader;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.io.*;
@@ -31,11 +34,14 @@ public class ActionListeners {
                         csv_writer.append(String.join(
                                 ", ", f_name.getText(), l_name.getText(), String.valueOf(car.model.code),
                                 String.valueOf(car.type.code), price.getText(),
-                                Calendar.getInstance().getTime().toString())
+                                Calendar.getInstance().getTime().toString().substring(0,19))
                         );
                         csv_writer.append("\n");
                         csv_writer.flush();
                         csv_writer.close();
+
+                        f_name.setText("");
+                        l_name.setText("");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -46,7 +52,28 @@ public class ActionListeners {
 
     ActionListener addHistoryListener(){
         return e -> {
-            new HistoryWindow().createHistoryWindow();
+            HistoryWindow window = new HistoryWindow();
+            try {
+                BufferedReader csv_reader = new BufferedReader(
+                        new FileReader("src/main/resources/purchase-history.csv")
+                );
+                String row ;
+                while ((row = csv_reader.readLine()) != null){
+                    String[] data = row.split(",");
+                    for (String s : data) {
+                        JLabel label = new JLabel();
+                        label.setPreferredSize(new Dimension(200,30));
+                        label.setFont(new Font("",Font.BOLD,16));
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                        label.setVerticalAlignment(SwingConstants.CENTER);
+                        label.setText(s);
+                        window.panel.add(label);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            window.createHistoryWindow();
         };
     }
 
