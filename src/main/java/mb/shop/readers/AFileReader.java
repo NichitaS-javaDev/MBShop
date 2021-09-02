@@ -48,12 +48,6 @@ public abstract class AFileReader<T> {
         } catch (IOException | InvalidFilesStructureException e) {
             e.printStackTrace();
         }
-//        for (Car c : car_map.values()) {
-//            System.out.println(c.model);
-//            System.out.println(c.type);
-//            System.out.println(c.current_price);
-//            System.out.println(c.img_path);
-//        }
         return car_map;
     }
 

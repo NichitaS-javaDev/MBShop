@@ -1,18 +1,28 @@
 package mb.shop.app;
 
+import mb.shop.dataCaches.PurchaseHistoryCache;
 import mb.shop.readers.AFileReader;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ActionListeners {
 
     String stringHandler(Object o) {
         return o.toString().toLowerCase().replaceAll("[-_ ]","");
+    }
+
+    JLabel createJLabel(String label_text){
+        JLabel label = new JLabel();
+        label.setPreferredSize(new Dimension(200,30));
+        label.setFont(new Font("",Font.BOLD,16));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setText(label_text);
+        return label;
     }
 
     ActionListener addPurchaseListener(
@@ -53,25 +63,26 @@ public class ActionListeners {
     ActionListener addHistoryListener(){
         return e -> {
             HistoryWindow window = new HistoryWindow();
-            try {
-                BufferedReader csv_reader = new BufferedReader(
-                        new FileReader("src/main/resources/purchase-history.csv")
-                );
-                String row ;
-                while ((row = csv_reader.readLine()) != null){
-                    String[] data = row.split(",");
-                    for (String s : data) {
-                        JLabel label = new JLabel();
-                        label.setPreferredSize(new Dimension(200,30));
-                        label.setFont(new Font("",Font.BOLD,16));
-                        label.setHorizontalAlignment(SwingConstants.CENTER);
-                        label.setVerticalAlignment(SwingConstants.CENTER);
-                        label.setText(s);
-                        window.panel.add(label);
-                    }
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            ArrayList<Purchase> purchase_list = new PurchaseHistoryCache().getPurchases();
+
+            window.gridLayout.setRows(purchase_list.size()+1);
+            window.gridLayout.setColumns(6);
+
+            window.panel.add(createJLabel("First Name"));
+            window.panel.add(createJLabel("Last Name"));
+            window.panel.add(createJLabel("Model"));
+            window.panel.add(createJLabel("Type"));
+            window.panel.add(createJLabel("Price"));
+            window.panel.add(createJLabel("Date"));
+
+            for (Purchase purchase : purchase_list){
+
+                window.panel.add(createJLabel(purchase.first_name));
+                window.panel.add(createJLabel(purchase.last_name));
+                window.panel.add(createJLabel(purchase.model));
+                window.panel.add(createJLabel(purchase.type));
+                window.panel.add(createJLabel(purchase.price));
+                window.panel.add(createJLabel(purchase.date));
             }
             window.createHistoryWindow();
         };
@@ -92,6 +103,26 @@ public class ActionListeners {
             if (price.getText().equals("")){
                 price.setText("Not Available");
                 preview.setIcon(new ImageIcon("src/main/resources/img/not_available.png"));
+            }
+        };
+    }
+
+    KeyListener addPurchaseButtonItemListener(
+            JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button
+    ){
+        return new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                purchase_button.setEnabled(
+                        first_name.getText().length() >= 3 &&
+                                last_name.getText().length() >= 3 &&
+                                !price.getText().equalsIgnoreCase("not available"));
             }
         };
     }
