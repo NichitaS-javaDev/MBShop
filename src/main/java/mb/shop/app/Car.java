@@ -17,7 +17,7 @@ public class Car {
     public Car() {
     }
 
-    Vector<String> getModelsName(){
+    public Vector<String> getModelsName(){
         Vector<String> list = new Vector<>();
         for (CarModel model : CarModel.values()) {
             list.add(model.name);
@@ -25,7 +25,7 @@ public class Car {
         return list;
     }
 
-    Vector<String> getCarTypes(){
+    public Vector<String> getCarTypes(){
         Vector<String> list = new Vector<>();
         for (CarType type : CarType.values()) {
             list.add(type.name);

@@ -8,8 +8,8 @@ public enum CarModel {
     S_class_coupe(5,"S-Class Coupe")
     ;
 
-    int code;
-    String name;
+    public int code;
+    public String name;
 
     CarModel(int code, String name) {
         this.code = code;

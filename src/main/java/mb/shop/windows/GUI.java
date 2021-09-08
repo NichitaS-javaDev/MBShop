@@ -1,11 +1,13 @@
-package mb.shop.app;
+package mb.shop.windows;
 
+import mb.shop.app.listeners.ActionListeners;
+import mb.shop.app.Car;
 import javax.swing.*;
 import java.awt.*;
 
 public class GUI {
 
-    protected void createGUI(){
+    public void createGUI(){
         ActionListeners actionListeners = new ActionListeners();
         Car car = new Car();
         JLabel text, current_price;
@@ -146,11 +148,15 @@ public class GUI {
                 actionListeners.addPurchaseListener(first_name, last_name, models, types, current_price)
         );
 
-        first_name.addKeyListener(actionListeners.addPurchaseButtonItemListener(
+        first_name.addKeyListener(actionListeners.addPurchaseButtonKeyListener(
                 current_price,first_name,last_name,purchase_button
                 ));
 
-        last_name.addKeyListener(actionListeners.addPurchaseButtonItemListener(
+        last_name.addKeyListener(actionListeners.addPurchaseButtonKeyListener(
+                current_price,first_name,last_name,purchase_button
+        ));
+
+        current_price.addPropertyChangeListener(actionListeners.addPropertyChangeListener(
                 current_price,first_name,last_name,purchase_button
         ));
 

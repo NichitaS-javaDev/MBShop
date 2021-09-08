@@ -1,7 +1,6 @@
 package mb.shop.dataCaches;
 
 import mb.shop.app.Purchase;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,9 +8,9 @@ import java.util.*;
 
 public class PurchaseHistoryCache {
     HashMap<Integer,Purchase> purchase_map = new HashMap<>();
-    ArrayList<Purchase> purchase_list;
+    List<Purchase> purchaseList;
 
-    public void addPurchase(){
+    public void addPurchases(){
         int key = 1;
         Purchase purchase;
         try {
@@ -32,16 +31,16 @@ public class PurchaseHistoryCache {
 
     }
 
-    public ArrayList<Purchase> getPurchases(){
-        addPurchase();
+    public List<Purchase> getPurchases(){
+        addPurchases();
 
         Collection<Purchase> values = purchase_map.values();
 
-        purchase_list = new ArrayList<>(values);
+        purchaseList = new ArrayList<>(values);
 
-        Collections.reverse(purchase_list);
+        Collections.reverse(purchaseList);
 
-        return purchase_list;
+        return purchaseList;
 
     }
 

@@ -1,4 +1,4 @@
-package mb.shop.app;
+package mb.shop.exceptions;
 
 public class InvalidFilesStructureException extends Exception{
 

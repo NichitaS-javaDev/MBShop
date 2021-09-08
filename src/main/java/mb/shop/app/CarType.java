@@ -8,7 +8,7 @@ public enum CarType {
     BRABUS(5,"Brabus"),
     ;
 
-    int code;
+    public int code;
     public String name;
 
     CarType(int code, String name) {

@@ -1,13 +1,17 @@
-package mb.shop.app;
+package mb.shop.app.listeners;
 
+import mb.shop.app.Car;
+import mb.shop.app.Purchase;
+import mb.shop.dataCaches.CarsCache;
 import mb.shop.dataCaches.PurchaseHistoryCache;
-import mb.shop.readers.AFileReader;
+import mb.shop.windows.HistoryWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeListener;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ActionListeners {
 
@@ -25,7 +29,14 @@ public class ActionListeners {
         return label;
     }
 
-    ActionListener addPurchaseListener(
+    boolean ifInputDataIsCorrect(JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button){
+        return first_name.getText().length() >= 3 &&
+                last_name.getText().length() >= 3 &&
+                !price.getText().equalsIgnoreCase("not available");
+    }
+
+
+    public ActionListener addPurchaseListener(
             JTextField f_name, JTextField l_name, JComboBox<String> model, JComboBox<String> type, JLabel price){
         return e -> {
             FileWriter csv_writer = null;
@@ -34,7 +45,7 @@ public class ActionListeners {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            for (Car car : AFileReader.car_map.values()){
+            for (Car car : CarsCache.carMap.values()){
                 if (car.model.toString().equals(
                         new Car().getCarByModel(model.getSelectedItem().toString()).toString()
                 ) && car.type.toString().equals(
@@ -52,6 +63,9 @@ public class ActionListeners {
 
                         f_name.setText("");
                         l_name.setText("");
+                        String s = price.getText();
+                        price.setText("");
+                        price.setText(s);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -60,10 +74,10 @@ public class ActionListeners {
         };
     }
 
-    ActionListener addHistoryListener(){
+    public ActionListener addHistoryListener(){
         return e -> {
             HistoryWindow window = new HistoryWindow();
-            ArrayList<Purchase> purchase_list = new PurchaseHistoryCache().getPurchases();
+            List<Purchase> purchase_list = new PurchaseHistoryCache().getPurchases();
 
             window.gridLayout.setRows(purchase_list.size()+1);
             window.gridLayout.setColumns(6);
@@ -76,7 +90,6 @@ public class ActionListeners {
             window.panel.add(createJLabel("Date"));
 
             for (Purchase purchase : purchase_list){
-
                 window.panel.add(createJLabel(purchase.first_name));
                 window.panel.add(createJLabel(purchase.last_name));
                 window.panel.add(createJLabel(purchase.model));
@@ -84,14 +97,15 @@ public class ActionListeners {
                 window.panel.add(createJLabel(purchase.price));
                 window.panel.add(createJLabel(purchase.date));
             }
+
             window.createHistoryWindow();
         };
     }
 
-    ItemListener addPreviewAndPriceListener(JLabel price, JComboBox<String> model, JComboBox<String> type, JLabel preview){
+    public ItemListener addPreviewAndPriceListener(JLabel price, JComboBox<String> model, JComboBox<String> type, JLabel preview){
         return e -> {
             price.setText("");
-            for (Car car : AFileReader.car_map.values()) {
+            for (Car car : CarsCache.carMap.values()) {
                 if (stringHandler((model.getSelectedItem())).equals(stringHandler(car.model))
                         & stringHandler(type.getSelectedItem()).equals(stringHandler(car.type))){
                     price.setText(car.current_price + "$");
@@ -107,7 +121,7 @@ public class ActionListeners {
         };
     }
 
-    KeyListener addPurchaseButtonItemListener(
+    public KeyListener addPurchaseButtonKeyListener(
             JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button
     ){
         return new KeyListener() {
@@ -119,12 +133,15 @@ public class ActionListeners {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                purchase_button.setEnabled(
-                        first_name.getText().length() >= 3 &&
-                                last_name.getText().length() >= 3 &&
-                                !price.getText().equalsIgnoreCase("not available"));
+                purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name, purchase_button));
             }
         };
+    }
+
+    public PropertyChangeListener addPropertyChangeListener(
+            JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button
+    ){
+        return evt -> purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name, purchase_button));
     }
 
 }

@@ -1,12 +1,12 @@
-package mb.shop.app;
+package mb.shop.windows;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class HistoryWindow {
     JFrame frame = new JFrame("MB Purchase History");
-    GridLayout gridLayout = new GridLayout();
-    JPanel panel = new JPanel(gridLayout);
+    public GridLayout gridLayout = new GridLayout();
+    public JPanel panel = new JPanel(gridLayout);
     ScrollPane scrollPane = new ScrollPane(ScrollPane.SCROLLBARS_NEVER);
 
     public void createHistoryWindow() {
