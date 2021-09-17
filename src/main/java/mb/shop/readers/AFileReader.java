@@ -1,47 +1,42 @@
 package mb.shop.readers;
 
-import mb.shop.app.Car;
-import mb.shop.app.CarFactory;
-import mb.shop.dataCaches.CarsCache;
-import mb.shop.readers.carReader.CarFileReader;
 import mb.shop.exceptions.InvalidFilesStructureException;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public abstract class AFileReader<T> {
-    public static String file_path;
-    public static byte column_num;
-    public List<T> car_list;
+    public String file_path;
+    public int columnNum;
+    public BufferedReader reader;
 
-    public AFileReader(String file_path, byte column_num) {
-        AFileReader.file_path = file_path;
-        AFileReader.column_num = column_num;
+    public AFileReader(String file_path, int columnNum) {
+        this.file_path = file_path;
+        this.columnNum = columnNum;
+        try {
+            reader = new BufferedReader(new FileReader(file_path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public AFileReader() {
-    }
-
-    abstract public boolean validateRow(String row, boolean ifHeader);
+    abstract public T createRecord(String row);
+    abstract public boolean validateRow(String row, boolean ifHeader) throws InvalidFilesStructureException;
+    abstract public boolean validateStructure(String name, int index);
 
     public List<T> loadData(){
-        //car_map = new HashMap<>();
-        car_list = new Vector<>();
-        CarFileReader<Car> carFileReader = new CarFileReader<>();
-        CarFactory carFactory = new CarFactory();
-        CarsCache carsCache = new CarsCache();
-
+        List<T> list = new ArrayList<>();
         try {
-            String row = carFileReader.reader.readLine(); //header
-            if (carFileReader.validateRow(row,true)){
+            String row = reader.readLine(); //header
+            if (validateRow(row,true)){
                 while (true){
-                    row = carFileReader.reader.readLine(); //line
+                    row = reader.readLine(); //line
                     if (row != null){
-                        if (carFileReader.validateRow(row,false)){
-                            Car car = carFactory.createCar(row);
-                            car_list.add((T) car);
-                            carsCache.addCar(car);
-                            carFactory.addImagePath(car);
+                        if (validateRow(row,false)){
+                            list.add(createRecord(row));
                         } else {
                             throw new InvalidFilesStructureException("Invalid line");
                         }
@@ -53,7 +48,6 @@ public abstract class AFileReader<T> {
         } catch (IOException | InvalidFilesStructureException e) {
             e.printStackTrace();
         }
-        return car_list;
+        return list;
     }
-
 }

@@ -1,4 +1,4 @@
-package mb.shop.app;
+package mb.shop.entities;
 
 public class Purchase {
     public String first_name, last_name, type, model, price, date;

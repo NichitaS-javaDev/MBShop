@@ -1,20 +1,20 @@
 model_code, model_name, type_code, type_name, current_price
-12563, A-class, 2514, Sedan, 32550$
-32562, A-class, 4532, Cabrio, 33620$
-65892, A-class, 5689, Universal, 29999$
-98234, A-class, 6521, AMG, 42350$
-83256, A-class, 4256, Brabus, 50000$
-56225, C-class, 5425, Sedan, 24990$
-69852, C-class, 6987, AMG, 52645$
-98563, E-class, 2589, Sedan, 29650$
-78256, E-class, 6985, Cabrio, 31885$
-69585, E-class, 4826, Universal, 30000$
-87266, E-class, 9811, AMG, 65230$
-75269, E-class, 7852, Brabus, 74250$
-83222, S-class, 7123, Sedan, 53680$
-69852, S-class, 4425, AMG, 77770$
-98251, S-class, 9565, Brabus, 95000$
-92214, S-class coupe, 6952, Sedan, 52780$
-95225, S-class coupe, 8423, Cabrio, 54320$
-95255, S-class coupe, 6286, AMG, 75000$
-95852, S-class coupe, 4582, Brabus, 101550$
+1, A-class, 1, Sedan, 32550$
+1, A-class, 3, Cabrio, 33620$
+1, A-class, 2, Universal, 29999$
+1, A-class, 4, AMG, 42350$
+1, A-class, 5, Brabus, 50000$
+2, C-class, 1, Sedan, 24990$
+2, C-class, 4, AMG, 52645$
+3, E-class, 1, Sedan, 29650$
+3, E-class, 3, Cabrio, 31885$
+3, E-class, 2, Universal, 30000$
+3, E-class, 4, AMG, 65230$
+3, E-class, 5, Brabus, 74250$
+4, S-class, 1, Sedan, 53680$
+4, S-class, 4, AMG, 77770$
+4, S-class, 5, Brabus, 95000$
+5, S-class coupe, 1, Sedan, 52780$
+5, S-class coupe, 3, Cabrio, 54320$
+5, S-class coupe, 4, AMG, 75000$
+5, S-class coupe, 5, Brabus, 101550$

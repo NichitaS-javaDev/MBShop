@@ -1,4 +1,4 @@
-first_name, last_name, model_code, model_type, price, date
+first_name, last_name, model_code, type_code, price, date
 John, Smith, 4, 5, 95000.0$, Wed Sep 01 13:06:43
 Betty, Rown, 1, 2, 29999.0$, Wed Sep 01 13:07:12
 Tommy, Clark, 3, 4, 65230.0$, Wed Sep 01 13:07:36
@@ -30,3 +30,19 @@ Mike, Aaaa, 3, 5, 74250.0$, Tue Sep 07 16:46:01
 Alpha, Run, 4, 5, 95000.0$, Thu Sep 09 00:35:53
 Beta, Run, 4, 5, 95000.0$, Thu Sep 09 00:51:51
 Final, Test, 3, 4, 65230.0$, Thu Sep 09 01:11:17
+Katty, Milberg, 4, 5, 95000.0$, Thu Sep 09 01:25:54
+Yoli, Corsar, 3, 2, 30000.0$, Tue Sep 14 00:44:52
+Hello, World, 4, 5, 95000.0$, Tue Sep 14 00:56:19
+Hello, Here, 5, 3, 54320.0$, Tue Sep 14 12:08:43
+Demo, Test, 2, 1, 24990.0$, Tue Sep 14 12:11:53
+Demo#2, Test, 3, 1, 29650.0$, Tue Sep 14 12:12:27
+Tibko, Wolf, 3, 3, 31885.0$, Tue Sep 14 12:15:07
+Ely, Marshall, 3, 3, 31885.0$, Tue Sep 14 14:49:15
+Alphard, Moon, 4, 5, 95000.0$, Tue Sep 14 14:53:33
+Eldon, Freeman, 4, 5, 95000.0$, Fri Sep 17 14:16:31
+Korman, Spilberg, 4, 5, 95000.0$, Fri Sep 17 15:58:28
+Roxana, Craft, 3, 2, 30000.0$, Fri Sep 17 16:25:43
+Folk, Zolt, 1, 4, 42350.0$, Fri Sep 17 17:15:59
+Loredana, Torwall, 5, 3, 54320.0$, Fri Sep 17 18:42:55
+Final, Test, 2, 1, 24990.0$, Fri Sep 17 18:48:43
+Arnold, Corser, 4, 5, 95000.0$, Fri Sep 17 18:49:32

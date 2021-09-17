@@ -1,7 +1,7 @@
 package mb.shop.app.listeners;
 
-import mb.shop.app.Car;
-import mb.shop.app.Purchase;
+import mb.shop.entities.Car;
+import mb.shop.entities.Purchase;
 import mb.shop.dataCaches.CarsCache;
 import mb.shop.dataCaches.PurchaseHistoryCache;
 import mb.shop.windows.HistoryWindow;
@@ -9,15 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
-import java.io.*;
 import java.util.Calendar;
 import java.util.List;
 
 public class ActionListeners {
-
-    String stringHandler(Object o) {
-        return o.toString().toLowerCase().replaceAll("[-_ ]","");
-    }
 
     JLabel createJLabel(String label_text){
         JLabel label = new JLabel();
@@ -29,48 +24,26 @@ public class ActionListeners {
         return label;
     }
 
-    boolean ifInputDataIsCorrect(JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button){
+    boolean ifInputDataIsCorrect(JLabel price, JTextField first_name, JTextField last_name){
         return first_name.getText().length() >= 3 &&
                 last_name.getText().length() >= 3 &&
                 !price.getText().equalsIgnoreCase("not available");
     }
 
-
     public ActionListener addPurchaseListener(
             JTextField f_name, JTextField l_name, JComboBox<String> model, JComboBox<String> type, JLabel price){
         return e -> {
-            FileWriter csv_writer = null;
-            try {
-                csv_writer = new FileWriter("src/main/resources/purchase-history.csv",true);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            for (Car car : CarsCache.carMap.values()){
-                if (car.model.toString().equals(
-                        new Car().getCarByModel(model.getSelectedItem().toString()).toString()
-                ) && car.type.toString().equals(
-                       new Car().getCarByType(type.getSelectedItem().toString()).toString()
-                )){
-                    try {
-                        csv_writer.append(String.join(
-                                ", ", f_name.getText(), l_name.getText(), String.valueOf(car.model.code),
-                                String.valueOf(car.type.code), price.getText(),
-                                Calendar.getInstance().getTime().toString().substring(0,19))
-                        );
-                        csv_writer.append("\n");
-                        csv_writer.flush();
-                        csv_writer.close();
+            PurchaseHistoryCache purchaseHistoryCache = new PurchaseHistoryCache();
+            purchaseHistoryCache.addPurchase(f_name.getText(), l_name.getText(), model.getSelectedItem().toString(),
+                    type.getSelectedItem().toString(), price.getText(),
+                    Calendar.getInstance().getTime().toString().substring(0,19));
 
-                        f_name.setText("");
-                        l_name.setText("");
-                        String s = price.getText();
-                        price.setText("");
-                        price.setText(s);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
+            f_name.setText("");
+            l_name.setText("");
+            String s = price.getText();
+            price.setText("");
+            price.setText(s);
+
         };
     }
 
@@ -105,15 +78,17 @@ public class ActionListeners {
     public ItemListener addPreviewAndPriceListener(JLabel price, JComboBox<String> model, JComboBox<String> type, JLabel preview){
         return e -> {
             price.setText("");
-            for (Car car : CarsCache.carMap.values()) {
-                if (stringHandler((model.getSelectedItem())).equals(stringHandler(car.model))
-                        & stringHandler(type.getSelectedItem()).equals(stringHandler(car.type))){
-                    price.setText(car.current_price + "$");
-                    preview.setIcon(new ImageIcon(car.img_path));
-                    break;
-                }
+            CarsCache carsCache = new CarsCache();
+            Car car = carsCache.getCar(
+                    String.valueOf(new Car().getCarByModel(String.valueOf(model.getSelectedItem())).code),
+                    String.valueOf(new Car().getCarByType(String.valueOf(type.getSelectedItem())).code)
+            );
 
+            if (car != null){
+                price.setText(car.current_price + "$");
+                preview.setIcon(new ImageIcon(car.img_path));
             }
+
             if (price.getText().equals("")){
                 price.setText("Not Available");
                 preview.setIcon(new ImageIcon("src/main/resources/img/not_available.png"));
@@ -133,7 +108,7 @@ public class ActionListeners {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name, purchase_button));
+                purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name));
             }
         };
     }
@@ -141,7 +116,7 @@ public class ActionListeners {
     public PropertyChangeListener addPropertyChangeListener(
             JLabel price, JTextField first_name, JTextField last_name, JButton purchase_button
     ){
-        return evt -> purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name, purchase_button));
+        return evt -> purchase_button.setEnabled(ifInputDataIsCorrect(price, first_name, last_name));
     }
 
 }

@@ -1,4 +1,7 @@
-package mb.shop.app;
+package mb.shop.entities;
+
+import mb.shop.enums.CarModel;
+import mb.shop.enums.CarType;
 
 import java.util.Vector;
 

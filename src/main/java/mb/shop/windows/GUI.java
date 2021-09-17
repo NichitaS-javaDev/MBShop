@@ -1,7 +1,7 @@
 package mb.shop.windows;
 
 import mb.shop.app.listeners.ActionListeners;
-import mb.shop.app.Car;
+import mb.shop.entities.Car;
 import javax.swing.*;
 import java.awt.*;
 

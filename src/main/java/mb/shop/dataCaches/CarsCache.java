@@ -1,36 +1,27 @@
 package mb.shop.dataCaches;
 
-import mb.shop.app.Car;
-import mb.shop.app.CarModel;
-import mb.shop.app.CarType;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import mb.shop.entities.Car;
+import mb.shop.readers.carReader.CarFileReader;
+import java.util.*;
 
 public class CarsCache {
     public static HashMap<String, Car> carMap = new HashMap<>();
 
+    public void init(){
+        new CarFileReader().loadData();
+    }
+
     public HashMap<String,Car> addCar(Car car){
-        carMap.put(car.model.code + "" + car.type.code, car);
+        carMap.put(generateKey(String.valueOf(car.model.code),String.valueOf(car.type.code)), car);
 
         return carMap;
     }
 
-    public Car getCar(CarModel model, CarType type){
-
-        for (Car car : carMap.values()){
-            if (car.model.name.equals(model.name) && car.type.name.equals(type.name)){
-                return car;
-            }
-        }
-
-        return null;
+    public Car getCar(String model, String type){
+        return carMap.get(generateKey(model,type));
     }
 
-    public List<Car> getCars(){
-        Collection<Car> carMapValues = carMap.values();
-
-        return new ArrayList<>(carMapValues);
+    private String generateKey(String modelCode, String typeCode){
+        return modelCode + typeCode;
     }
 }

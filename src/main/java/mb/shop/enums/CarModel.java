@@ -1,4 +1,4 @@
-package mb.shop.app;
+package mb.shop.enums;
 
 public enum CarModel {
     A_class(1,"A-Class"),
@@ -14,5 +14,14 @@ public enum CarModel {
     CarModel(int code, String name) {
         this.code = code;
         this.name = name;
+    }
+
+    public static CarModel getByModel(String model){
+        for (CarModel carModel : CarModel.values()){
+            if (carModel.name.equalsIgnoreCase(model)){
+                return carModel;
+            }
+        }
+        return null;
     }
 }

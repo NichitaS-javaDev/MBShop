@@ -1,4 +1,4 @@
-package mb.shop.app;
+package mb.shop.enums;
 
 public enum CarType {
     SEDAN(1,"Sedan"),
@@ -14,5 +14,14 @@ public enum CarType {
     CarType(int code, String name) {
         this.code = code;
         this.name = name;
+    }
+
+    public static CarType getByType(String model){
+        for (CarType carType : CarType.values()){
+            if (carType.name.equalsIgnoreCase(model)){
+                return carType;
+            }
+        }
+        return null;
     }
 }
