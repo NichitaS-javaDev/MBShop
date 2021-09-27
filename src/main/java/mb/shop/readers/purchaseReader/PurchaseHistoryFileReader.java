@@ -17,22 +17,18 @@ public class PurchaseHistoryFileReader extends AFileReader<Purchase> {
     }
 
     @Override
-    public boolean validateRow(String row, boolean ifHeader) {
-        try {
-            if (row.split(",").length != columnNum){
-                throw new InvalidFilesStructureException("Invalid File Structure");
-            }
-            if (ifHeader){
+    public boolean validateRow(String row, boolean isHeader) throws InvalidFilesStructureException{
+        if (row.split(",").length == columnNum){
+            if (isHeader){
                 String[] data = row.split(",");
-                for (int i=0;i<data.length;i++){
-                    if (!validateStructure(data[i],i)){
-                        throw new InvalidFilesStructureException("Invalid File Structure");
+                for (int i=0;i<data.length;i++) {
+                    if (!validateStructure(data[i], i)) {
+                        throw new InvalidFilesStructureException(">> Invalid Header Structure <<");
                     }
                 }
             }
-        } catch (InvalidFilesStructureException e) {
-            e.printStackTrace();
-            return false;
+        } else {
+            throw new InvalidFilesStructureException(">> Invalid File Structure <<");
         }
         return true;
     }

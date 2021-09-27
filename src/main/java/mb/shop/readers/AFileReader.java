@@ -24,7 +24,7 @@ public abstract class AFileReader<T> {
     }
 
     abstract public T createRecord(String row);
-    abstract public boolean validateRow(String row, boolean ifHeader) throws InvalidFilesStructureException;
+    abstract public boolean validateRow(String row, boolean isHeader) throws InvalidFilesStructureException;
     abstract public boolean validateStructure(String name, int index);
 
     public List<T> loadData(){
@@ -37,8 +37,6 @@ public abstract class AFileReader<T> {
                     if (row != null){
                         if (validateRow(row,false)){
                             list.add(createRecord(row));
-                        } else {
-                            throw new InvalidFilesStructureException("Invalid line");
                         }
                     } else {
                         break;

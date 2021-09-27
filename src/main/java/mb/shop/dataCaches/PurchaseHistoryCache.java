@@ -11,7 +11,7 @@ import java.util.*;
 public class PurchaseHistoryCache {
     public static List<Purchase> purchaseList = new ArrayList<>();
 
-    public void init(){
+    public static void init(){
         purchaseList.addAll(new PurchaseHistoryFileReader().loadData());
     }
 
@@ -40,10 +40,12 @@ public class PurchaseHistoryCache {
     }
 
     public List<Purchase> getPurchases(){
+        List<Purchase> clonedList = new ArrayList<>();
 
-        Collections.reverse(purchaseList);
+        clonedList.addAll(purchaseList);
 
-        return purchaseList;
+        Collections.reverse(clonedList);
 
+        return clonedList;
     }
 }
